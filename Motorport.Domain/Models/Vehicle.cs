@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Motorport.Domain.Models
 {
-    [Table("Vehicles")]
+
     public class Vehicle
     {
         [Key]
@@ -34,6 +34,7 @@ namespace Motorport.Domain.Models
         [MaxLength(200)]
         public string ImageUrl { get; set; }
 
+        #region "Common Fields"
         public DateTime CreatedAt { get; set; }
 
         [MaxLength(50)]
@@ -45,5 +46,6 @@ namespace Motorport.Domain.Models
         public string ModifiedBy { get; set; }
 
         public bool Active { get; set; }
+        #endregion
     }
 }
