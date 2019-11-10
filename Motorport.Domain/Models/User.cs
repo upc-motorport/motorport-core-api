@@ -18,6 +18,8 @@ namespace Motorport.Domain.Models
 
         public Membership Membership { get; set; }
 
+        public Person Person { get; set; }
+
         #region "Common Fields"
         public DateTime CreatedAt { get; set; }
 
