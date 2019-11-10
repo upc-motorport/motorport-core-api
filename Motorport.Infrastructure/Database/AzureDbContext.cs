@@ -18,6 +18,8 @@ namespace Motorport.Infrastructure.Database
         public DbSet<Person> Persons { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<Plan> Plans { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<MechanicalWorkshop> MechanicalWorkshops { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
