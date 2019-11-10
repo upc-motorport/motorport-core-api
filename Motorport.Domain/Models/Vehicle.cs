@@ -15,8 +15,10 @@ namespace Motorport.Domain.Models
         [Required]
         public int RegistrationPlate { get; set; }
 
-        [Required]
+        
         public int SubscriptionId { get; set; }
+
+        public Subscription Subscription { get; set; }
 
         [Required, MaxLength(50)]
         public string Model { get; set; }
