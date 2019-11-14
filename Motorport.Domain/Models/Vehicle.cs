@@ -12,11 +12,11 @@ namespace Motorport.Domain.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public int RegistrationPlate { get; set; }
+        [Required, MaxLength(20)]
+        public string RegistrationPlate { get; set; }
 
         
-        public int SubscriptionId { get; set; }
+        public int? SubscriptionId { get; set; }
 
         public Subscription Subscription { get; set; }
 
@@ -29,9 +29,9 @@ namespace Motorport.Domain.Models
         [Required,MaxLength(50)]
         public string Type { get; set; }
 
-        public int Year { get; set; }
+        public int? Year { get; set; }
 
-        public int Kilometers { get; set; }
+        public int? Kilometers { get; set; }
 
         [MaxLength(200)]
         public string ImageUrl { get; set; }

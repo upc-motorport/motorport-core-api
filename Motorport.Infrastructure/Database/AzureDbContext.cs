@@ -32,6 +32,35 @@ namespace Motorport.Infrastructure.Database
                 .HasOne(u => u.Membership)
                 .WithOne(m => m.User)
                 .HasForeignKey<Membership>(m => m.UserId);
+
+            builder.Entity<Vehicle>()
+                .HasData(
+                    new
+                    {
+                        Id = 1,
+                        RegistrationPlate = "ABC123",
+                        Brand = "Chevrolet",
+                        Model = "Camaro",
+                        Type = "Car",
+                        Year = 2014,
+                        Kilometers = 0,
+                        CreatedAt = DateTime.Now,
+                        ModifiedAt = DateTime.Now,
+                        Active = true
+                    },
+                    new
+                    {
+                        Id = 2,
+                        RegistrationPlate = "DCE321",
+                        Brand = "Chevrolet",
+                        Model = "Bolt",
+                        Type = "Car",
+                        Year = 2014,
+                        Kilometers = 0,
+                        CreatedAt = DateTime.Now,
+                        ModifiedAt = DateTime.Now,
+                        Active = true
+                    });
         }
     }
 }

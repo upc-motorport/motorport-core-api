@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Motorport.Infrastructure.Database;
 
 namespace Motorport.Infrastructure.Migrations
 {
     [DbContext(typeof(AzureDbContext))]
-    partial class AzureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191110074916_FixedVehicleModel")]
+    partial class FixedVehicleModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,7 +315,7 @@ namespace Motorport.Infrastructure.Migrations
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(200);
 
-                    b.Property<int?>("Kilometers");
+                    b.Property<int>("Kilometers");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -328,47 +330,19 @@ namespace Motorport.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
-                    b.Property<int?>("SubscriptionId");
+                    b.Property<int>("SubscriptionId");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("Year");
+                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SubscriptionId");
 
                     b.ToTable("Vehicles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            Brand = "Chevrolet",
-                            CreatedAt = new DateTime(2019, 11, 10, 3, 1, 55, 239, DateTimeKind.Local).AddTicks(539),
-                            Kilometers = 0,
-                            Model = "Camaro",
-                            ModifiedAt = new DateTime(2019, 11, 10, 3, 1, 55, 239, DateTimeKind.Local).AddTicks(6142),
-                            RegistrationPlate = "ABC123",
-                            Type = "Car",
-                            Year = 2014
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Active = true,
-                            Brand = "Chevrolet",
-                            CreatedAt = new DateTime(2019, 11, 10, 3, 1, 55, 239, DateTimeKind.Local).AddTicks(8279),
-                            Kilometers = 0,
-                            Model = "Bolt",
-                            ModifiedAt = new DateTime(2019, 11, 10, 3, 1, 55, 239, DateTimeKind.Local).AddTicks(8281),
-                            RegistrationPlate = "DCE321",
-                            Type = "Car",
-                            Year = 2014
-                        });
                 });
 
             modelBuilder.Entity("Motorport.Domain.Models.MechanicalWorkshop", b =>
@@ -412,7 +386,8 @@ namespace Motorport.Infrastructure.Migrations
                 {
                     b.HasOne("Motorport.Domain.Models.Subscription", "Subscription")
                         .WithMany("Vehicles")
-                        .HasForeignKey("SubscriptionId");
+                        .HasForeignKey("SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
