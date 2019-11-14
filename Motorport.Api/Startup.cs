@@ -15,6 +15,8 @@ using Microsoft.Extensions.Options;
 using Motorport.Infrastructure.Database;
 using Motorport.Infrastructure.Repositories;
 using Motorport.Infrastructure.Repositories.Implementation;
+using Motorport.Infrastructure.Services;
+using Motorport.Infrastructure.Services.Implementation;
 using Motorport.Infrastructure.Util.Mapping;
 
 namespace Motorport.Api
@@ -39,6 +41,7 @@ namespace Motorport.Api
             });
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IVehicleService, VehicleService>();
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>

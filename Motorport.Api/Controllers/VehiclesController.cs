@@ -1,13 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Motorport.Domain.Communication;
 using Motorport.Domain.Models;
 using Motorport.Domain.Resources;
-using Motorport.Infrastructure.Repositories;
+using Motorport.Infrastructure.Services;
 
 namespace Motorport.Api.Controllers
 {
@@ -15,12 +16,12 @@ namespace Motorport.Api.Controllers
     [ApiController]
     public class VehiclesController : ControllerBase
     {
-        private readonly IVehicleRepository _repository;
+        private readonly IVehicleService _service;
         private readonly IMapper _mapper;
 
-        public VehiclesController(IVehicleRepository repository, IMapper mapper)
+        public VehiclesController(IVehicleService service, IMapper mapper)
         {
-            _repository = repository;
+            _service = service;
             _mapper = mapper;
         }
 
@@ -29,25 +30,30 @@ namespace Motorport.Api.Controllers
         {
             try
             {
-                var vehicles = await _repository.List();
+                var vehicles = await _service.ListAsync();
                 var resources = _mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
+                var response = new ResultResponse(resources);
                 return Ok(resources);
             }catch(Exception ex)
             {
-                return NotFound();
+                var response = new ResultResponse(ex.Message);
+                return NotFound(response);
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vehicle>> Find([FromRoute(Name ="id")] int id)
+        public async Task<ActionResult<Vehicle>> Find([FromRoute(Name = "id")] int id)
         {
             try
             {
-                var vehicle = await _repository.Find(id);
-                return Ok(vehicle);
-            }catch (Exception)
+                var vehicle = await _service.FindAsync(id);
+                var resource = _mapper.Map<Vehicle, VehicleResource>(vehicle);
+                var response = new ResultResponse(resource);
+                return Ok(resource);
+            }catch (Exception ex)
             {
-                return NotFound();
+                var response = new ResultResponse(ex.Message);
+                return NotFound(response);
             }
         }
 
@@ -56,7 +62,7 @@ namespace Motorport.Api.Controllers
         {
             try
             {
-                await _repository.Add(vehicle);
+                await _service.AddAsync(vehicle);
                 return Accepted(vehicle.Id);
             }
             catch (Exception)
@@ -66,3 +72,4 @@ namespace Motorport.Api.Controllers
         }
     }
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
