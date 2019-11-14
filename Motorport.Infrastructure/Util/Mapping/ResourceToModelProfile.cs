@@ -12,6 +12,7 @@ namespace Motorport.Infrastructure.Util.Mapping
         public ResourceToModelProfile()
         {
             CreateMap<VehicleResource, Vehicle>();
+            CreateMap<SaveVehicleResource, Vehicle>();
         }
     }
 }

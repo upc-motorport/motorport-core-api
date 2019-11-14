@@ -18,6 +18,10 @@ namespace Motorport.Infrastructure.Services.Implementation
 
         public async Task AddAsync(Vehicle entity)
         {
+            entity.CreatedAt = DateTime.Now;
+            entity.CreatedBy = "user";
+            entity.ModifiedAt = DateTime.Now;
+            entity.Active = true;
             await _repository.AddAsync(entity);
         }
 
@@ -38,6 +42,8 @@ namespace Motorport.Infrastructure.Services.Implementation
 
         public async Task UpdateAsync(Vehicle entity)
         {
+            entity.ModifiedAt = DateTime.Now;
+            entity.ModifiedBy = "user";
             await _repository.UpdateAsync(entity);
         }
     }

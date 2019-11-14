@@ -14,5 +14,10 @@ namespace Motorport.Domain.Communication
         { }
         public ResultResponse(string message) : this(false, message, null)
         { }
+
+        public ResultResponse(bool success, string message): this(false, message, null)
+        {
+
+        }
     }
 }

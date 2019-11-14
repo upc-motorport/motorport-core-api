@@ -33,10 +33,10 @@ namespace Motorport.Api.Controllers
                 var vehicles = await _service.ListAsync();
                 var resources = _mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
                 var response = new ResultResponse(resources);
-                return Ok(resources);
+                return Ok(response);
             }catch(Exception ex)
             {
-                var response = new ResultResponse(ex.Message);
+                var response = new ResultResponse(ex.InnerException.Message);
                 return NotFound(response);
             }
         }
@@ -47,27 +47,70 @@ namespace Motorport.Api.Controllers
             try
             {
                 var vehicle = await _service.FindAsync(id);
+                if(vehicle == null)
+                {
+                    return NotFound(new ResultResponse("Vehicle not found"));
+                }
                 var resource = _mapper.Map<Vehicle, VehicleResource>(vehicle);
                 var response = new ResultResponse(resource);
-                return Ok(resource);
+                return Ok(response);
             }catch (Exception ex)
             {
-                var response = new ResultResponse(ex.Message);
+                var response = new ResultResponse(ex.InnerException.Message);
                 return NotFound(response);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Vehicle vehicle)
+        public async Task<IActionResult> Post([FromBody] SaveVehicleResource resource)
         {
             try
             {
+                var vehicle = _mapper.Map<SaveVehicleResource, Vehicle>(resource);
                 await _service.AddAsync(vehicle);
-                return Accepted(vehicle.Id);
+                var response = new ResultResponse(vehicle.Id);
+                return Accepted(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                var response = new ResultResponse(ex.InnerException.Message);
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute(Name = "id")] int id, [FromBody] SaveVehicleResource resource)
+        {
+            try
+            {
+                var current = await _service.FindAsync(id);
+                if(current == null)
+                {
+                    return NotFound(new ResultResponse("Vehicle not found"));
+                }
+                _mapper.Map(resource, current);
+                await _service.UpdateAsync(current);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                var response = new ResultResponse(ex.InnerException.Message);
+                return BadRequest(response);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute(Name ="id")] int id)
+        {
+            try
+            {
+                await _service.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                var response = new ResultResponse(ex.InnerException.Message);
+                return NotFound(response);
             }
         }
     }
