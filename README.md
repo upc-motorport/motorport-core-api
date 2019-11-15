@@ -1,6 +1,14 @@
 # motorport-core-api
 
-## Git Flow
+## API Documentation
+
+https://motorport-core-api.azurewebsites.net/swagger/index.html
+
+### API Base URL
+
+https://motorport-core-api.azurewebsites.net/api/v1/
+
+### Git Flow
 feature-[FEATURE_NAME]-[#PIVOTAL-USER-STORY-ID]
 
 Every new feature that would be implemented should have its own branch
