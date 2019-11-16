@@ -14,7 +14,6 @@ namespace Motorport.Domain.Models
 
         [Required, MaxLength(20)]
         public string RegistrationPlate { get; set; }
-
         
         public int? SubscriptionId { get; set; }
 

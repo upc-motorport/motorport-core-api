@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Motorport.Domain.Communication;
@@ -31,7 +32,7 @@ namespace Motorport.Api.Controllers
         /// <returns>A response with a list of Vehicles</returns>
         /// <response code="201">Returns Vehicles</response>
         /// <response code="400">Returns inner exception</response>
-        [HttpGet]
+        [HttpGet, Authorize(Roles="Administrator,Owner,Member")]
         public async Task<ActionResult<IEnumerable<Vehicle>>> Get()
         {
             try
@@ -42,8 +43,8 @@ namespace Motorport.Api.Controllers
                 return Ok(response);
             }catch(Exception ex)
             {
-                var response = new ResultResponse(ex.InnerException.Message);
-                return BadRequest(response);
+                 var response = new ResultResponse(ex.InnerException.Message);
+                 return BadRequest(response);
             }
         }
 
@@ -53,7 +54,7 @@ namespace Motorport.Api.Controllers
         /// <returns>A response with a single Vehicle</returns>
         /// <response code="201">Returns Vehicle by Id</response>
         /// <response code="404">Vehicle Not Found</response>  
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = "Administrator,Owner,Member")]
         public async Task<ActionResult<Vehicle>> Find([FromRoute(Name = "id")] int id)
         {
             try
@@ -79,7 +80,7 @@ namespace Motorport.Api.Controllers
         /// <returns>A response with the newly created Id</returns>
         /// <response code="201">Returns the newly created Id</response>
         /// <response code="400">If throws an Exception or item is null</response>            
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator,Owner")]
         public async Task<IActionResult> Post([FromBody] SaveVehicleResource resource)
         {
             try
@@ -102,7 +103,7 @@ namespace Motorport.Api.Controllers
         /// <returns>No Content</returns>
         /// <response code="204">No Content</response>
         /// <response code="400">If throws an Exception or item is null</response>  
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Administrator,Owner")]
         public async Task<IActionResult> Update([FromRoute(Name = "id")] int id, [FromBody] SaveVehicleResource resource)
         {
             try
@@ -127,7 +128,7 @@ namespace Motorport.Api.Controllers
         /// Deletes a specific Vehicle.
         /// </summary>
         /// <param name="id"></param>        
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Administrator,Owner")]
         public async Task<IActionResult> Delete([FromRoute(Name ="id")] int id)
         {
             try

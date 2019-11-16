@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Motorport.Infrastructure.Database;
 
 namespace Motorport.Infrastructure.Migrations
 {
     [DbContext(typeof(AzureDbContext))]
-    partial class AzureDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191116024033_MembershipRoleConversion")]
+    partial class MembershipRoleConversion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,20 +121,6 @@ namespace Motorport.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Memberships");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            CreatedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(4759),
-                            ExpirationDate = new DateTime(2020, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(4748),
-                            ModifiedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(4760),
-                            Role = "Owner",
-                            StartDate = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(4744),
-                            SubscriptionId = 1,
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("Motorport.Domain.Models.Organization", b =>
@@ -188,14 +176,14 @@ namespace Motorport.Infrastructure.Migrations
                     b.Property<string>("IdentificationNumber")
                         .HasMaxLength(20);
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
                     b.Property<DateTime>("ModifiedAt");
 
                     b.Property<string>("ModifiedBy")
                         .HasMaxLength(50);
+
+                    b.Property<string>("MyProperty")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<string>("ShortName")
                         .IsRequired()
@@ -209,20 +197,6 @@ namespace Motorport.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Persons");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            CreatedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(2847),
-                            FirstName = "Manuel Augusto",
-                            IdentificationNumber = "81058541",
-                            LastName = "Alvarado Estanga",
-                            ModifiedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(2852),
-                            ShortName = "Manuel Alvarado",
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("Motorport.Domain.Models.Plan", b =>
@@ -255,28 +229,13 @@ namespace Motorport.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("PlanType")
-                        .IsRequired();
+                    b.Property<int>("PlanType");
 
                     b.Property<int>("UsersLimit");
 
                     b.HasKey("Id");
 
                     b.ToTable("Plans");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            Cost = 0m,
-                            CreatedAt = new DateTime(2019, 11, 15, 21, 58, 1, 53, DateTimeKind.Local).AddTicks(99),
-                            Description = "Basic Plan",
-                            ModifiedAt = new DateTime(2019, 11, 15, 21, 58, 1, 53, DateTimeKind.Local).AddTicks(7078),
-                            Name = "Basic",
-                            PlanType = "Basic",
-                            UsersLimit = 1
-                        });
                 });
 
             modelBuilder.Entity("Motorport.Domain.Models.Subscription", b =>
@@ -304,16 +263,6 @@ namespace Motorport.Infrastructure.Migrations
                     b.HasIndex("PlanId");
 
                     b.ToTable("Subscriptions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            CreatedAt = new DateTime(2019, 11, 15, 21, 58, 1, 55, DateTimeKind.Local).AddTicks(7075),
-                            ModifiedAt = new DateTime(2019, 11, 15, 21, 58, 1, 55, DateTimeKind.Local).AddTicks(7080),
-                            PlanId = 1
-                        });
                 });
 
             modelBuilder.Entity("Motorport.Domain.Models.User", b =>
@@ -351,10 +300,10 @@ namespace Motorport.Infrastructure.Migrations
                         {
                             Id = 1,
                             Active = true,
-                            CreatedAt = new DateTime(2019, 11, 15, 21, 58, 1, 192, DateTimeKind.Local).AddTicks(9627),
+                            CreatedAt = new DateTime(2019, 11, 15, 21, 40, 32, 801, DateTimeKind.Local).AddTicks(5357),
                             Email = "alvarado.manuel@live.com",
-                            ModifiedAt = new DateTime(2019, 11, 15, 21, 58, 1, 192, DateTimeKind.Local).AddTicks(9640),
-                            Password = "$2b$10$hJILbCr7Ln08pcPXPGhWqOXrCu7KwfxOUWTQmtC4uY.Jnh0RSvWt2"
+                            ModifiedAt = new DateTime(2019, 11, 15, 21, 40, 32, 801, DateTimeKind.Local).AddTicks(5370),
+                            Password = "$2b$10$P6SwjIhsPbAXvcdtCNX9PeOlCpy9SvCk/TyPXQ0EumsFUd3PiCkku"
                         });
                 });
 
@@ -393,7 +342,7 @@ namespace Motorport.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
-                    b.Property<int>("SubscriptionId");
+                    b.Property<int?>("SubscriptionId");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -413,12 +362,11 @@ namespace Motorport.Infrastructure.Migrations
                             Id = 1,
                             Active = true,
                             Brand = "Chevrolet",
-                            CreatedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(6739),
+                            CreatedAt = new DateTime(2019, 11, 15, 21, 40, 32, 654, DateTimeKind.Local).AddTicks(6239),
                             Kilometers = 0,
                             Model = "Camaro",
-                            ModifiedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(6742),
+                            ModifiedAt = new DateTime(2019, 11, 15, 21, 40, 32, 655, DateTimeKind.Local).AddTicks(7004),
                             RegistrationPlate = "ABC123",
-                            SubscriptionId = 1,
                             Type = "Car",
                             Year = 2014
                         },
@@ -427,12 +375,11 @@ namespace Motorport.Infrastructure.Migrations
                             Id = 2,
                             Active = true,
                             Brand = "Chevrolet",
-                            CreatedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(8515),
+                            CreatedAt = new DateTime(2019, 11, 15, 21, 40, 32, 656, DateTimeKind.Local).AddTicks(1044),
                             Kilometers = 0,
                             Model = "Bolt",
-                            ModifiedAt = new DateTime(2019, 11, 15, 21, 58, 1, 193, DateTimeKind.Local).AddTicks(8521),
+                            ModifiedAt = new DateTime(2019, 11, 15, 21, 40, 32, 656, DateTimeKind.Local).AddTicks(1055),
                             RegistrationPlate = "DCE321",
-                            SubscriptionId = 1,
                             Type = "Car",
                             Year = 2014
                         });
@@ -479,8 +426,7 @@ namespace Motorport.Infrastructure.Migrations
                 {
                     b.HasOne("Motorport.Domain.Models.Subscription", "Subscription")
                         .WithMany("Vehicles")
-                        .HasForeignKey("SubscriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SubscriptionId");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,7 +14,7 @@ namespace Motorport.Domain.Models
         public string FirstName { get; set; }
 
         [Required, MaxLength(100)]
-        public string MyProperty { get; set; }
+        public string LastName { get; set; }
 
         [Required, MaxLength(100)]
         public string ShortName { get; set; }
