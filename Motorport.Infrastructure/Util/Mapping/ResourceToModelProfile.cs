@@ -13,6 +13,7 @@ namespace Motorport.Infrastructure.Util.Mapping
         {
             CreateMap<VehicleResource, Vehicle>();
             CreateMap<SaveVehicleResource, Vehicle>();
+            CreateMap<UserResource, User>();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Motorport.Domain.Models
         public int UsersLimit { get; set; }
 
         [Required]
-        public int PlanType { get; set; }
+        public PlanTypeEnum PlanType { get; set; }
 
         public List<Subscription> Subscriptions { get; set; }
 

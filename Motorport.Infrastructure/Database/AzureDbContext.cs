@@ -33,11 +33,102 @@ namespace Motorport.Infrastructure.Database
                 .WithOne(m => m.User)
                 .HasForeignKey<Membership>(m => m.UserId);
 
+            builder
+                .Entity<Membership>()
+                .Property(m => m.Role)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (RoleEnum)Enum.Parse(typeof(RoleEnum), v));
+
+            builder
+                .Entity<Plan>()
+                .Property(p => p.PlanType)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (PlanTypeEnum)Enum.Parse(typeof(PlanTypeEnum),v)
+                );
+
+            // Mock Data
+
+            builder.Entity<Plan>()
+                .HasData(
+                    new
+                    {
+                        Id = 1,
+                        Name = "Basic",
+                        Description = "Basic Plan",
+                        Cost = 0.0,
+                        UsersLimit = 1,
+                        PlanType = PlanTypeEnum.Basic,
+                        CreatedAt = DateTime.Now,
+                        ModifiedAt = DateTime.Now,
+                        Active = true
+                    }
+                );
+
+            builder.Entity<Subscription>()
+                .HasData(
+                    new
+                    {
+                        Id = 1,
+                        PlanId = 1,
+                        CreatedAt = DateTime.Now,
+                        ModifiedAt = DateTime.Now,
+                        Active = true
+                    }
+                );
+
+            builder.Entity<User>()
+                .HasData(
+                    new
+                    {
+                        Id = 1,
+                        Email = "alvarado.manuel@live.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("Motor2019"),
+                        CreatedAt = DateTime.Now,
+                        ModifiedAt = DateTime.Now,
+                        Active = true
+                    }
+                );
+
+            builder.Entity<Person>()
+                .HasData(
+                    new
+                    {
+                        Id = 1,
+                        FirstName = "Manuel Augusto",
+                        LastName = "Alvarado Estanga",
+                        ShortName = "Manuel Alvarado",
+                        IdentificationNumber = "81058541",
+                        UserId = 1,
+                        CreatedAt = DateTime.Now,
+                        ModifiedAt = DateTime.Now,
+                        Active = true
+                    }
+                );
+
+            builder.Entity<Membership>()
+                .HasData(
+                    new
+                    {
+                        Id = 1,
+                        StartDate = DateTime.Now,
+                        ExpirationDate = DateTime.Now.AddMonths(12),
+                        Role = RoleEnum.Owner,
+                        SubscriptionId = 1,
+                        UserId = 1,
+                        CreatedAt = DateTime.Now,
+                        ModifiedAt = DateTime.Now,
+                        Active = true
+                    }
+                );
+
             builder.Entity<Vehicle>()
                 .HasData(
                     new
                     {
                         Id = 1,
+                        SubscriptionId = 1,
                         RegistrationPlate = "ABC123",
                         Brand = "Chevrolet",
                         Model = "Camaro",
@@ -51,6 +142,7 @@ namespace Motorport.Infrastructure.Database
                     new
                     {
                         Id = 2,
+                        SubscriptionId = 1,
                         RegistrationPlate = "DCE321",
                         Brand = "Chevrolet",
                         Model = "Bolt",
