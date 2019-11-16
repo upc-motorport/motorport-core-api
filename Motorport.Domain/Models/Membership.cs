@@ -16,7 +16,7 @@ namespace Motorport.Domain.Models
         [Required]
         public DateTime ExpirationDate { get; set; }
 
-        public int Role { get; set; }
+        public RoleEnum Role { get; set; }
 
         public int SubscriptionId { get; set; }
 
