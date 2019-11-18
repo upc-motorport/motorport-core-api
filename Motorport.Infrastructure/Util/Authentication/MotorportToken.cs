@@ -57,7 +57,7 @@ namespace Motorport.Infrastructure.Util.Authentication
             var token = new JwtSecurityToken(
                     issuer: _issuer,
                     audience: _audience,
-                    expires: DateTime.Now.AddHours(1),
+                    expires: DateTime.Now.AddMonths(1),
                     signingCredentials: _signingCredentials, 
                     claims: claims
                 );
