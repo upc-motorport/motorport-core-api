@@ -43,7 +43,7 @@ namespace Motorport.Infrastructure.Repositories.Implementation
 
         public async Task<User> FindByEmailAsync(string email)
         {
-            return await _set.FirstOrDefaultAsync(x => x.Email == email);
+            return await _set.Include(u => u.Membership).FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public async Task<List<User>> ListAsync()

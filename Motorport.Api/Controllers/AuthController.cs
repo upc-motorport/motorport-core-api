@@ -33,6 +33,7 @@ namespace Motorport.Api.Controllers
                 claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
                 claims.Add(new Claim(ClaimTypes.Role, "Reader"));
                 claims.Add(new Claim("id", user.Id.ToString()));
+                claims.Add(new Claim("subscription_id", user.Membership.SubscriptionId.ToString()));
                 claims.Add(new Claim("email", user.Email));
                 var token = MotorportToken.Instance.GetToken(claims);
                 var response = new LoginResponse("Login successfully",token);

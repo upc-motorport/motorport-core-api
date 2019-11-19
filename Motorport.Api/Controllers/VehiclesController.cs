@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -85,6 +86,9 @@ namespace Motorport.Api.Controllers
         {
             try
             {
+                var subscriptionIdClaim = GetClaim("subscription_id");
+                var subscriptionId = Convert.ToInt32(subscriptionIdClaim.Value);
+                resource.SubscriptionId = subscriptionId;
                 var vehicle = _mapper.Map<SaveVehicleResource, Vehicle>(resource);
                 await _service.AddAsync(vehicle);
                 var response = new ResultResponse(vehicle.Id);
@@ -113,6 +117,9 @@ namespace Motorport.Api.Controllers
                 {
                     return NotFound(new ResultResponse("Vehicle not found"));
                 }
+                var subscriptionIdClaim = GetClaim("subscription_id");
+                var subscriptionId = Convert.ToInt32(subscriptionIdClaim.Value);
+                resource.SubscriptionId = subscriptionId;
                 _mapper.Map(resource, current);
                 await _service.UpdateAsync(current);
                 return NoContent();
@@ -141,6 +148,11 @@ namespace Motorport.Api.Controllers
                 var response = new ResultResponse(ex.InnerException.Message);
                 return NotFound(response);
             }
+        }
+
+        private Claim GetClaim(string name)
+        {
+            return User.Claims.FirstOrDefault(x => x.Type.Equals(name, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
