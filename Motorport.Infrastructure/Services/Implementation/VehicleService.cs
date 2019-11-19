@@ -35,6 +35,11 @@ namespace Motorport.Infrastructure.Services.Implementation
             return await _repository.FindAsync(id);
         }
 
+        public async Task<List<Vehicle>> FindBySubscriptionId(int subscriptionId)
+        {
+            return await _repository.FindBySubscriptionId(subscriptionId);
+        }
+
         public async Task<List<Vehicle>> ListAsync()
         {
             return await _repository.ListAsync();

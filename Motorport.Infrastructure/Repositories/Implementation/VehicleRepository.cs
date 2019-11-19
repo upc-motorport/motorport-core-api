@@ -3,6 +3,7 @@ using Motorport.Domain.Models;
 using Motorport.Infrastructure.Database;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +40,11 @@ namespace Motorport.Infrastructure.Repositories.Implementation
         public async Task<Vehicle> FindAsync(int id)
         {
             return await _set.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<Vehicle>> FindBySubscriptionId(int subscriptionId)
+        {
+            return await _set.Where(v => v.SubscriptionId == subscriptionId).ToListAsync();
         }
 
         public async Task<List<Vehicle>> ListAsync()

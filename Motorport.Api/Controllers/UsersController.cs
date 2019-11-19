@@ -20,11 +20,13 @@ namespace Motorport.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly IVehicleService _vehicleService;
 
-        public UsersController(IMapper mapper, IUserService userService)
+        public UsersController(IMapper mapper, IUserService userService, IVehicleService vehicleService)
         {
             _mapper = mapper;
             _userService = userService;
+            _vehicleService = vehicleService;
         }
 
         /// <summary>
@@ -50,6 +52,35 @@ namespace Motorport.Api.Controllers
             {
                 string message;
                 if(ex.InnerException != null)
+                {
+                    message = ex.InnerException.Message;
+                }
+                else
+                {
+                    message = ex.Message;
+                }
+                var response = new ResultResponse(message);
+                return NotFound(response);
+            }
+        }
+
+        [HttpGet("self/vehicles"), Authorize]
+        public async Task<ActionResult> Vehicles()
+        {
+            try
+            {
+                var idClaim = GetClaim("id");
+                var id = Convert.ToInt32(idClaim.Value);
+                var user = await _userService.FindAsync(id);
+                var vehicles = await _vehicleService.FindBySubscriptionId(user.Membership.SubscriptionId);
+                var resources = _mapper.Map<List<Vehicle>,List<VehicleResource>>(vehicles);
+                var response = new ResultResponse(resources);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                string message;
+                if (ex.InnerException != null)
                 {
                     message = ex.InnerException.Message;
                 }
