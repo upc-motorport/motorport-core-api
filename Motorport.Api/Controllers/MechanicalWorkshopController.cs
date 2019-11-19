@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Motorport.Domain.Communication;
@@ -26,8 +27,14 @@ namespace Motorport.Api.Controllers
             _mapper = mapper;
         }
 
-
-        [HttpGet]
+        /// <summary>
+        /// Get a list of MechanicalWorkshops
+        /// </summary>
+        /// <returns>A response with a list of MechanicalWorkshops</returns>
+        /// <response code="201">Returns MechanicalWorkshops</response>
+        /// <response code="400">Returns inner exception</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet,Authorize(Roles = "Administrator,Owner,Member")]
         public async Task<ActionResult<IEnumerable<MechanicalWorkshop>>> Get()
         {
             try
@@ -43,8 +50,13 @@ namespace Motorport.Api.Controllers
                 return NotFound(response);
             }
         }
-
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Get a specific MechanicalWorkshop by Id
+        /// </summary>
+        /// <returns>A response with a single MechanicalWorkshop</returns>
+        /// <response code="201">Returns MechanicalWorkshop by Id</response>
+        /// <response code="404">MechanicalWorkshop Not Found</response>  
+        [HttpGet("{id}"),Authorize(Roles = "Administrator,Owner,Member")]
         public async Task<ActionResult<MechanicalWorkshop>> Find([FromRoute(Name = "id")] int id)
         {
             try
@@ -52,7 +64,7 @@ namespace Motorport.Api.Controllers
                 var mechanicalworkshop = await _service.FindAsync(id);
                 if (mechanicalworkshop == null)
                 {
-                    return NotFound(new ResultResponse("Vehicle not found"));
+                    return NotFound(new ResultResponse("MechanicalWorkshop not found"));
                 }
                 var resource = _mapper.Map<MechanicalWorkshop, MechanicalWorkshopResource>(mechanicalworkshop);
                 var response = new ResultResponse(resource);
@@ -64,6 +76,13 @@ namespace Motorport.Api.Controllers
                 return NotFound(response);
             }
         }
+
+        /// <summary>
+        /// Creates a MechanicalWorkshop Item
+        /// </summary>
+        /// <returns>A response with the newly created Id</returns>
+        /// <response code="201">Returns the newly created Id</response>
+        /// <response code="400">If throws an Exception or item is null</response>  
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SaveMechanicalWorkshopResource resource)
         {
@@ -81,6 +100,12 @@ namespace Motorport.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates a specific MechanicalWorkshop Item given the Id
+        /// </summary>
+        /// <returns>No Content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="400">If throws an Exception or item is null</response> 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute(Name = "id")] int id, [FromBody] SaveMechanicalWorkshopResource resource)
         {
@@ -102,6 +127,10 @@ namespace Motorport.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a specific MechanicalWorkshop.
+        /// </summary>
+        /// <param name="id"></param>    
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute(Name = "id")] int id)
         {
