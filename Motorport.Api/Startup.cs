@@ -51,6 +51,11 @@ namespace Motorport.Api
             services.AddScoped<IMechanicalWorkshopService, MechanicalWorkshopService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDrivingSessionRepository, DrivingSessionRepository>();
+            services.AddScoped<IDrivingSessionService, DrivingSessionService>();
+            services.AddScoped<IDrivingSessionDetailRepository, DrivingSessionDetailRepository>();
+            services.AddScoped<IDrivingSessionDetailService, DrivingSessionDetailService>();
+
 
             // Auto Mapper Setup
             var mappingConfig = new MapperConfiguration(mc =>

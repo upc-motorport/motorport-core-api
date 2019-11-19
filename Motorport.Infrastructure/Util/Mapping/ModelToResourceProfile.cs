@@ -15,6 +15,8 @@ namespace Motorport.Infrastructure.Util.Mapping
             CreateMap<Vehicle, SaveVehicleResource>();
             CreateMap<User, UserResource>();
             CreateMap<MechanicalWorkshop, MechanicalWorkshopResource>();
+            CreateMap<DrivingSession, DrivingSessionResource>();
+            CreateMap<DrivingSessionDetail, DrivingSessionDetailResource>();
         }
     }
 }

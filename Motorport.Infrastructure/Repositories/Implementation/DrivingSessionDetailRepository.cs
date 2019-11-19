@@ -6,22 +6,23 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Motorport.Infrastructure.Repositories.Implementation
 {
-    public class MechanicalWorkshopRepository : IMechanicalWorkshopRepository
+    public class DrivingSessionDetailRepository : IDrivingSessionDetailRepository
     {
         private readonly AzureDbContext _context;
-        private readonly DbSet<MechanicalWorkshop> _set;
+        private readonly DbSet<DrivingSessionDetail> _set;
 
-        public MechanicalWorkshopRepository(AzureDbContext context)
+        public DrivingSessionDetailRepository(AzureDbContext context)
         {
             _context = context;
-            _set = _context.Set<MechanicalWorkshop>();
+            _set = _context.Set<DrivingSessionDetail>();
+
         }
 
 
-
-        public async Task AddAsync(MechanicalWorkshop entity)
+        public async Task AddAsync(DrivingSessionDetail entity)
         {
             _set.Add(entity);
             await _context.SaveChangesAsync();
@@ -37,17 +38,17 @@ namespace Motorport.Infrastructure.Repositories.Implementation
             }
         }
 
-        public async Task<MechanicalWorkshop> FindAsync(int id)
+        public async Task<DrivingSessionDetail> FindAsync(int id)
         {
             return await _set.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<MechanicalWorkshop>> ListAsync()
+        public async Task<List<DrivingSessionDetail>> ListAsync()
         {
             return await _set.ToListAsync();
         }
 
-        public async Task UpdateAsync(MechanicalWorkshop entity)
+        public async Task UpdateAsync(DrivingSessionDetail entity)
         {
             _set.Update(entity);
             await _context.SaveChangesAsync();
