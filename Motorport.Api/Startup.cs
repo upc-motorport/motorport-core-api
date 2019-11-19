@@ -47,6 +47,8 @@ namespace Motorport.Api
 
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IMechanicalWorkshopRepository, MechanicalWorkshopRepository>();
+            services.AddScoped<IMechanicalWorkshopService, MechanicalWorkshopService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 

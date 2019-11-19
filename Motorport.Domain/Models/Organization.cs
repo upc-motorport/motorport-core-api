@@ -8,12 +8,13 @@ namespace Motorport.Domain.Models
     public class Organization
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [Required, MaxLength(20)]
         public string Ruc { get; set; }
         [Required, MaxLength(50)]
         public string BussinessName { get; set; }
         public string ThumbnailImage { get; set; }
+        public List<MechanicalWorkshop> MechanicalWorkshops { get; set; }
         #region "Common Fields"
         public DateTime CreatedAt { get; set; }
 
