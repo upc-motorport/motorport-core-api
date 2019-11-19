@@ -8,7 +8,7 @@ namespace Motorport.Domain.Models
     public class MechanicalWorkshop
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public int OrganizationId { get; set; }
         public Organization Organization { get; set; }
         [Required, MaxLength(50)]
@@ -28,9 +28,9 @@ namespace Motorport.Domain.Models
         [Required, MaxLength(100)]
         public string Country { get; set; }
  
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
 
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
         #region "Common Fields"
         public DateTime CreatedAt { get; set; }
 

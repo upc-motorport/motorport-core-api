@@ -45,9 +45,8 @@ namespace Motorport.Infrastructure.Database
                 .Property(p => p.PlanType)
                 .HasConversion(
                     v => v.ToString(),
-                    v => (PlanTypeEnum)Enum.Parse(typeof(PlanTypeEnum),v)
-                );
-
+                    v => (PlanTypeEnum)Enum.Parse(typeof(PlanTypeEnum),v));
+            
             // Mock Data
 
             builder.Entity<Plan>()
@@ -153,6 +152,57 @@ namespace Motorport.Infrastructure.Database
                         ModifiedAt = DateTime.Now,
                         Active = true
                     });
+
+            builder.Entity<Organization>().HasData(
+                new {
+                    Id = 1,
+                    Ruc = "1002419",
+                    BussinessName = "MotorPort SAC",
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    Active = true
+                }
+                    
+                
+                );
+            builder.Entity<MechanicalWorkshop>().HasData(
+                new
+                {
+                    Id = 1,
+                    OrganizationId = 1,
+                    Name = "AutoData S.A.C",
+                    Street = "Las Casuarinas",
+                    StreetNumber = "231",
+                    ZipCode = "15023",
+                    City = "Lima",
+                    AverageRate = 4.0,
+                    Department = "Santiago de Surco",
+                    Country = "Peru",
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    Active = true
+                },
+                new
+                {
+                    Id = 2,
+                    OrganizationId = 1,
+                    Name = "AutoSolution",
+                    Street = "Mariano Eduardo de Rivero y Ustariz",
+                    StreetNumber = "123",
+                    ZipCode = "15023",
+                    City = "Lima",
+                    AverageRate = 4.5,
+                    Department = "Santiago de Surco",
+                    Country = "Peru",
+                    CreatedAt = DateTime.Now,
+                    ModifiedAt = DateTime.Now,
+                    Active = true
+                }
+
+
+
+                );
+
         }
     }
 }
