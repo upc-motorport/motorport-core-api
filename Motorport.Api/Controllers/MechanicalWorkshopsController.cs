@@ -15,7 +15,7 @@ using Motorport.Infrastructure.Services;
 
 namespace Motorport.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class MechanicalWorkshopsController : ControllerBase
     {
