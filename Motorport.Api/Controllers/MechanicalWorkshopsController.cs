@@ -17,11 +17,11 @@ namespace Motorport.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MechanicalWorkshopController : ControllerBase
+    public class MechanicalWorkshopsController : ControllerBase
     {
         private readonly IMechanicalWorkshopService _service;
         private readonly IMapper _mapper;
-        public MechanicalWorkshopController(IMechanicalWorkshopService service, IMapper mapper)
+        public MechanicalWorkshopsController(IMechanicalWorkshopService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
